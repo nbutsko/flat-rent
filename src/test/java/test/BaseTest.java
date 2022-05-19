@@ -10,7 +10,7 @@ import pageobjects.SearchResultsPage;
 public class BaseTest extends AbstractTest {
 
     @Test
-    public void testLowestPrice(){
+    public void testLowestPrice() {
         String region = "Минск и обл";
         String cityArea = "Центральный район";
         String numberOfRooms = "1";
@@ -23,13 +23,11 @@ public class BaseTest extends AbstractTest {
                 .selectNumberOfRooms(numberOfRooms)
                 .clickButtonFindObjects();
 
+        int lowestPriceFromResults = searchResultsPage.getLowestPriceInResultList();
         searchResultsPage.uploadToLogSearchResults();
 
         FlatPage flatPage = searchResultsPage.openFlatPageWithLowestPrice();
 
-        System.out.println("Min rental price " + searchResultsPage.getLowestPriceInResultList());
-        System.out.println("Flat rental price " + flatPage.getPriceFromFlatPage());
-
-        Assert.assertEquals(flatPage.getPriceFromFlatPage(), searchResultsPage.getLowestPriceInResultList());
+        Assert.assertEquals(flatPage.getPriceFromFlatPage(), lowestPriceFromResults);
     }
 }

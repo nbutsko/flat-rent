@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utils.UtilsClass;
 
 public class FlatPage extends AbstractPage {
 
@@ -17,8 +18,7 @@ public class FlatPage extends AbstractPage {
 
     public int getPriceFromFlatPage() {
         String priceFromCard = rentalPrice.getText();
-        //int price = Integer.parseInt(priceFromCard.substring(0, priceFromCard.length() - 3).replaceAll("\\s", ""));
         logger.info(priceFromCard);
-        return SearchResultsPage.parseRentalPriceFromStringToInt(priceFromCard);
+        return UtilsClass.parseRentalPriceFromStringToInt(priceFromCard);
     }
 }

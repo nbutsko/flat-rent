@@ -31,11 +31,15 @@ public class FlatsRentPage extends AbstractPage {
     @FindBy(css = "div.search-block-menu a[href*='rent']")
     private WebElement buttonRentAFlat;
 
-    @FindBy(xpath = "//div[@class='search-item']/*[contains(text(),'Район:')]/following-sibling::span[@class='selectbox']")
+    @FindBy(xpath = "//div[@class='search-item']/*[contains(text(),'Район:')]/following-sibling::span//span[@class='select']")
+    //@FindBy(xpath = "//*[@id='form1']/div[2]/span[2]")
     private WebElement selectorCityArea;
 
     //FindBy(xpath = "//div[@class='search-item']/*[contains(text(),'Район:')]/following-sibling::span/ul/li")
     //private List<WebElement> cityAreas;
+
+    @FindBy(xpath = "//div[@class='search-item']/*[contains(text(),'Район:')]/following-sibling::span//ul[@class='dropdown']")
+    private WebElement dropdownAreas;
 
     @FindBy(css = "input[type='checkbox'][name='tx_uedbadsboard_pi1[search][rooms][]']")
     private List<WebElement> checkboxesNumberOfRooms;
@@ -85,13 +89,13 @@ public class FlatsRentPage extends AbstractPage {
         return this;
     }
 
-    public FlatsRentPage selectCityArea(String selectedArea) throws InterruptedException {
-        Thread.sleep(3000);
-        selectorCityArea.click();
-        Thread.sleep(3000);
+    public FlatsRentPage selectCityArea(String selectedArea) {
+        //executor.executeScript("arguments[0].click();", selectorCityArea);
+        action.moveToElement(selectorCityArea).click().build().perform();
+        //selectorCityArea.click();
+        wait.until(ExpectedConditions.visibilityOf(dropdownAreas));
         List<WebElement> cityAreas = driver.findElements(By.xpath("//div[@class='search-item']/*[contains(text(),'Район:')]/following-sibling::span/ul/li"));
         System.out.println("SIZE " + cityAreas.size());
-
         return this;
     }
 
