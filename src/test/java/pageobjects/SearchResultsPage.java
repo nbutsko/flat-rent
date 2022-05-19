@@ -1,50 +1,20 @@
 package pageobjects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import utils.UtilsClass;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchResultsPage extends AbstractPage {
 
     @FindBy(css = "div.bb-ad-item")
-    private List<WebElement> foundFlats;
+    private static List<WebElement> foundFlats;
 
-    public SearchResultsPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
+    public static List<WebElement> getListOfFoundFlat() {
+        return foundFlats;
     }
 
-    private List<String> getListOfFlatAddresses() {
-        String addressSelector = "div.title-obj span";
-        List<String> addressesInResult = foundFlats.stream()
-                .map(webElement -> webElement.findElement(By.cssSelector(addressSelector)).getText())
-                .collect(Collectors.toList());
-        return addressesInResult;
-    }
-
-    private List<String> getListOfRentalPrice() {
-        String priceSelector = "div.info>p.price";
-        List<String> pricesInResult = foundFlats.stream()
-                .map(webElement -> webElement.findElement(By.cssSelector(priceSelector)).getText())
-                .collect(Collectors.toList());
-        return pricesInResult;
-    }
-
-    public int getLowestPriceInResultList() {
-        int lowestPrice = getListOfRentalPrice().stream()
-                .map(UtilsClass::parseRentalPriceFromStringToInt)
-                .min(Integer::compareTo)
-                .get();
-        return lowestPrice;
-    }
-
-    public FlatPage openFlatPageWithLowestPrice() {
+    /*public FlatPage openFlatPageWithLowestPrice() {
         String priceSelector = "div.info>p.price";
         String buttonFlatTitleSelector = "div.title-obj>a";
         for (WebElement flatCard : foundFlats) {
@@ -56,12 +26,7 @@ public class SearchResultsPage extends AbstractPage {
             }
         }
         return new FlatPage(driver);
-    }
+    }*/
 
-    public void uploadToLogSearchResults() {
-        for (int i = 0; i < getListOfFlatAddresses().size(); i++) {
-            logger.info(getListOfFlatAddresses().get(i));
-            logger.info(getListOfRentalPrice().get(i));
-        }
-    }
+
 }

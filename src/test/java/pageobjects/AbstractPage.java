@@ -1,17 +1,20 @@
 package pageobjects;
 
+import driver.DriverSingleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
 public class AbstractPage {
     public final static String BASE_URL = "https://www.kvartirant.by/";
 
-    public final static Logger logger = LogManager.getLogger();
+    protected final static Logger logger = LogManager.getLogger();
 
-    public WebDriver driver;
+    protected WebDriver driver;
 
-    public AbstractPage(WebDriver driver) {
-        this.driver = driver;
+    public AbstractPage() {
+        driver = DriverSingleton.getDriver();
+        PageFactory.initElements(driver, this);
     }
 }
