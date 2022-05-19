@@ -1,7 +1,6 @@
 package steps;
 
 import domain.Flat;
-import org.openqa.selenium.WebDriver;
 import pageobjects.RentFlatPage;
 import pageobjects.HomePage;
 import pageobjects.SearchResultsPage;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class RentFlatStep extends RentFlatPage {
 
-    public void openPageAndSearchFlat(String region, String cityArea, String numberOfRooms){
+    public void openPageAndSearchFlat(String region, String cityArea, String numberOfRooms) {
         new HomePage()
                 .openPage()
                 .clickButtonFlatForRent()
@@ -25,19 +24,12 @@ public class RentFlatStep extends RentFlatPage {
 
     private List<String> getListOfFlatAddresses() {
         String addressSelector = "div.title-obj span";
-        return UtilsClass.getListOfParametersFromListOfWebElements(SearchResultsPage.getListOfFoundFlat(), addressSelector);
+        return UtilsClass.getListOfParametersFromListOfWebElements(SearchResultsPage.getListOfFoundFlatCards(), addressSelector);
     }
 
     private List<String> getListOfRentalPrice() {
         String priceSelector = "div.info>p.price";
-        return UtilsClass.getListOfParametersFromListOfWebElements(SearchResultsPage.getListOfFoundFlat(), priceSelector);
-    }
-
-    public int getLowestPriceInResultList() {
-        return getListOfRentalPrice().stream()
-                .map(UtilsClass::parseRentalPriceFromStringToInt)
-                .min(Integer::compareTo)
-                .get();
+        return UtilsClass.getListOfParametersFromListOfWebElements(SearchResultsPage.getListOfFoundFlatCards(), priceSelector);
     }
 
     public List<Flat> getListOfFlats() {
@@ -48,5 +40,14 @@ public class RentFlatStep extends RentFlatPage {
             logger.info(flat.toString());
         }
         return result;
+    }
+
+    public int getLowestPriceInResultList() {
+        int lowerPrice = getListOfRentalPrice().stream()
+                .map(UtilsClass::parseRentalPriceFromStringToInt)
+                .min(Integer::compareTo)
+                .get();
+        logger.info(lowerPrice);
+        return lowerPrice;
     }
 }
